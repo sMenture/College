@@ -1,0 +1,22 @@
+CREATE TRIGGER ОбновлениеСтатусовЗаявки
+ON Заявки 
+AFTER INSERT, UPDATE
+AS BEGIN
+    -- если дата окончания
+    UPDATE Заявки
+    SET СтатусID = 3
+    WHERE ДатаОкончания IS NOT NULL and
+    ЗаявкаID = (SELECT ЗаявкаID FROM inserted)
+
+    -- если мастер null
+    UPDATE Заявки
+    SET СтатусID = 1
+    WHERE ЗаявкаID IS NULL AND ДатаОкончания IS NULL and
+    ЗаявкаID = (SELECT ЗаявкаID FROM inserted)
+
+    -- если мастер not null
+    UPDATE Заявки
+    SET СтатусID = 2
+    WHERE МастерID IS NOT NULL AND ДатаОкончания IS NULL and
+    ЗаявкаID = (SELECT ЗаявкаID FROM inserted)
+END
