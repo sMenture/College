@@ -20,3 +20,16 @@ AS BEGIN
     WHERE МастерID IS NOT NULL AND ДатаОкончания IS NULL and
     ЗаявкаID = (SELECT ЗаявкаID FROM inserted)
 END
+
+drop trigger УдалениеТовара
+GO
+
+CREATE TRIGGER УдалениеТовара
+    ON Склад
+    AFTER DELETE
+AS
+	IF(SELECT COUNT(*) FROM Склад) = 1
+	DELETE FROM Товары
+    WHERE Товары.Код_тов = (SELECT Склад.Тов_ид FROM Склад)
+	and Товары.Код_тов = (SELECT deleted.Тов_ид FROM deleted)
+GO
