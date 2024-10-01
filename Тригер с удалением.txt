@@ -11,3 +11,38 @@ BEGIN
         WHERE s.Тов_ид IS NULL
     )
 END
+
+CREATE TRIGGER ТриггерУдаленияТовара
+ON Склад
+AFTER UPDATE, INSERT
+AS BEGIN
+	-- удаление из товаров
+	DELETE FROM Товары
+    WHERE Код_тов IN (
+        SELECT d.Тов_ид
+        FROM DELETED d
+        LEFT JOIN склад s ON d.Тов_ид = s.Тов_ид
+        WHERE s.Количесвто <= 0
+    )
+	-- из склада
+	DELETE FROM Склад
+	WHERE Количесвто <= 0
+	-- архив
+	INSERT INTO Архив(IdТовар)
+	SELECT inserted.Тов_ид
+	FROM inserted
+    WHERE Количесвто <= 0
+END
+
+CREATE TRIGGER ТриггерПодсчетКоличестваТовара
+    ON Продажи
+    AFTER INSERT
+AS BEGIN
+	UPDATE Склад
+    SET Склад.Количесвто -= Продажи.Количество
+	FROM Продажи
+	WHERE Продажи.Код_тов = Склад.Тов_ид and 
+	Склад.Количесвто - Продажи.Количество >= 0;
+END
+
+drop trigger ТриггерПодсчетКоличестваТовара
