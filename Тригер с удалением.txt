@@ -1,0 +1,14 @@
+CREATE TRIGGER trg_DeleteProduct
+ON склад
+AFTER DELETE
+AS
+BEGIN
+    -- Удаляем товар из таблицы товары, если его больше нет на складе
+    DELETE FROM товары
+    WHERE товарID IN (
+        SELECT d.товарID
+        FROM DELETED d
+        LEFT JOIN склад s ON d.товарID = s.товарID
+        WHERE s.товарID IS NULL
+    );
+END;
