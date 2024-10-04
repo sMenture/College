@@ -1,35 +1,70 @@
-CREATE TRIGGER ОбновлениеСтатусовЗаявки
-ON Заявки 
-AFTER INSERT, UPDATE
-AS BEGIN
-    -- если дата окончания
-    UPDATE Заявки
-    SET СтатусID = 3
-    WHERE ДатаОкончания IS NOT NULL and
-    ЗаявкаID = (SELECT ЗаявкаID FROM inserted)
+CREATE TRIGGER UpdateStockAndArchive
+AFTER INSERT ON Продажи
+FOR EACH ROW
+BEGIN
+    DECLARE current_stock INT;
+    
+    -- Получаем текущее количество товара на складе
+    SELECT Количество INTO current_stock
+    FROM Склад
+    WHERE ТоварID = NEW.ТоварID;
+    
+    -- Обновляем количество товара на складе
+    UPDATE Склад
+    SET Количество = current_stock - NEW.Количество
+    WHERE ТоварID = NEW.ТоварID;
+    
+    -- Если количество товара на складе стало нулевым, переносим информацию в архив
+    IF current_stock - NEW.Количество <= 0 THEN
+        INSERT INTO Архив (ТоварID, Наименование)
+        SELECT ТоварID, Наименование
+        FROM Товары
+        WHERE ТоварID = NEW.ТоварID;
+        
+        -- Удаляем товар со склада
+        DELETE FROM Склад
+        WHERE ТоварID = NEW.ТоварID;
+    END IF;
+END;
 
-    -- если мастер null
-    UPDATE Заявки
-    SET СтатусID = 1
-    WHERE ЗаявкаID IS NULL AND ДатаОкончания IS NULL and
-    ЗаявкаID = (SELECT ЗаявкаID FROM inserted)
 
-    -- если мастер not null
-    UPDATE Заявки
-    SET СтатусID = 2
-    WHERE МастерID IS NOT NULL AND ДатаОкончания IS NULL and
-    ЗаявкаID = (SELECT ЗаявкаID FROM inserted)
-END
+-- Общее количество продаж
+SELECT COUNT(*) AS ОбщееКоличествоПродаж
+FROM Продажи;
 
-drop trigger УдалениеТовара
-GO
+-- Количество продаж за определенную дату (например, '2024-10-01')
+SELECT COUNT(*) AS КоличествоПродажЗаДату
+FROM Продажи
+WHERE ДатаПродажи = '2024-10-01';
 
-CREATE TRIGGER УдалениеТовара
-    ON Склад
-    AFTER DELETE
-AS
-	IF(SELECT COUNT(*) FROM Склад) = 1
-	DELETE FROM Товары
-    WHERE Товары.Код_тов = (SELECT Склад.Тов_ид FROM Склад)
-	and Товары.Код_тов = (SELECT deleted.Тов_ид FROM deleted)
-GO
+
+
+SELECT AVG(Количество) AS СреднееКоличествоТоваров
+FROM Продажи;
+
+
+
+SELECT MIN(Цена) AS МинимальнаяСтоимость, MAX(Цена) AS МаксимальнаяСтоимость
+FROM Товары;
+
+
+
+SELECT COUNT(*) AS КоличествоУдаленныхЗаписей
+FROM История
+WHERE Действие = 'Удаление';
+
+
+SELECT COUNT(*) AS КоличествоИзмененныхЗаписей
+FROM История
+WHERE Действие = 'Изменение';
+
+
+SELECT COUNT(*) AS КоличествоДобавленныхДанных
+FROM История
+WHERE Действие = 'Добавление';
+
+
+SELECT Пользователи.*
+FROM Пользователи
+LEFT JOIN Заказы ON Пользователи.ПользовательID = Заказы.ПользовательID
+WHERE Заказы.ПользовательID IS NULL;
