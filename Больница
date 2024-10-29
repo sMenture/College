@@ -1,0 +1,200 @@
+create table Пользователи
+(
+ПользовательID int identity primary key not null,
+
+Фамилия nvarchar(100) not null,
+Имя nvarchar(100) not null,
+Отчество nvarchar(100) null,
+Фотография text not null,
+
+ПолID int not null,
+
+ДанныеПользователяID int not null,
+)
+create table Города
+(
+ГородID int identity primary key,
+НаименованиеГорода nvarchar(100) not null
+)
+create table ПолПользователя
+(
+ПолID int identity primary key not null
+)
+
+create table ДанныеПользователя
+(
+ДанныеПользователяID int identity primary key,
+
+МестоПроживанияID int not null,
+ПаспортныДанныеID int not null,
+
+ТелефонныйНомер nvarchar(50) not null,
+ЭлектронныйАдресс nvarchar(250) not null,
+)
+create table ПаспортныеДанные
+(
+ПаспортныДанныеID int identity primary key,
+НомерПаспорта int not null,
+СерияПаспорта int not null,
+
+ДатаРождения date not null,
+
+КемВыдан text not null,
+ДатаВыдачи date not null,
+);
+create table МестоПроживания
+(
+МестоПроживанияID int identity primary key,
+ГородID int not null,
+Улица nvarchar(100) not null,
+Дом nvarchar(100) not null,
+);
+
+create table Пациенты
+(
+ПациентID int identity primary key,
+ПользовательID int not null,
+
+МедицинскаяКартаID int not null,
+СтраховойПоясID int not null
+)
+
+create table МедицинскиеКарты
+(
+МедицинскаяКартаID int identity primary key,
+НомерМедицинскойКарты int not null,
+ДатаВыдачиМедицинскойКарты date not null,
+)
+create table СтраховойПояс
+(
+СтраховойПоясID int identity primary key,
+СтраховаяКомпанияID int not null,
+НомерСтраховогоПояса int not null,
+ДатаОкончанияСтраховогоПояса date not null
+)
+create table СтраховыеКомпании
+(
+СтраховаяКомпанияID int identity primary key,
+НаименованиеСтраховойКомпании text not null
+)
+
+create table Врачи
+(
+ВрачID int identity primary key not null,
+ПользовательID int not null,
+РольID int not null
+)
+create table ВрачиОтделения
+(
+ВрачОтделение int identity primary key,
+ВрачID int not null,
+ОтделениеID int not null
+)
+
+create table Роли
+(
+РольID int identity primary key not null,
+НаименованиеРоли nvarchar(200) not null
+)
+
+create table Препараты
+(
+ПрепаратID int identity primary key,
+НаименованиеПрепарата nvarchar(250) not null
+)
+
+create table Болезни
+(
+БолезньID int identity primary key,
+НаименованиеБолезни nvarchar(250) not null
+)
+create table Диагноз
+(
+ДиагнозID int identity primary key not null,
+БолезньID int not null,
+СтепеньТяжестиЗаболеваний int not null
+)
+create table СтепеньТяжестиЗаболеваний
+(
+СтепеньТяжестиID int identity primary key,
+НаименованиеСтепениТяжести nvarchar(100) not null
+)
+
+create table Симптомы
+(
+СимптомID int identity primary key,
+НаименованиеСимптома text not null,
+Сообщение text null
+)
+create table СимптомыБолезнь
+(
+СимптомыБолезньID int identity primary key,
+БолезньID int not null,
+СимптомID int not null
+)
+
+create table Мероприятия
+(
+МероприятиеID int identity primary key,
+ТипМероприятияID int not null,
+
+ДатаПроведения date not null,
+ДатаСледующегоВизита date null,
+
+ПациентID int not null,
+
+РецептID int null,
+Сообщение text null
+)
+create table МероприятиеВрач
+(
+МероприятиеВрачID int identity primary key,
+
+ПациентID int not null,
+ВрачID int not null,
+)
+create table ТипМероприятий
+(
+ТипМероприятияID int identity primary key,
+НаименованиеМероприятия nvarchar(250) not null,
+)
+create table Рецепты
+(
+РецептID int identity primary key,
+ПрепаратID int not null,
+ДиагнозID int null,
+Сообщение text not null
+) 
+
+create table ИсторияБолезней
+(
+ИсторияБолезниID int identity primary key,
+
+ПациентID int not null,
+ДиагнозID int not null,
+
+ДатаНазначения date not null,
+ДатаОкончания date null
+)
+
+create table Гопитализации
+(
+ГоспитализацияID int identity primary key not null,
+ОтделениеID int not null,
+ПациентID int not null,
+
+ДатаНачала date not null,
+ДатаОкончания date null
+);
+create table ГопитализацияДиагноз
+(
+ГопитализацияБолезньID int identity primary key not null,
+ГоспитализацияID int not null,
+ДиагнозID int not null
+)
+
+create table Отделения
+(
+ОтделениеID int identity primary key not null,
+НаименованиеОтделения nvarchar(250) not null
+)
