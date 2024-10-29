@@ -1,0 +1,607 @@
+USE [master]
+GO
+/****** Object:  Database [SportShopKazharov]    Script Date: 29.10.2024 11:48:38 ******/
+CREATE DATABASE [SportShopKazharov]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'SportShopKazharov', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\SportShopKazharov.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'SportShopKazharov_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\DATA\SportShopKazharov_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [SportShopKazharov] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [SportShopKazharov].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [SportShopKazharov] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET AUTO_CLOSE ON 
+GO
+ALTER DATABASE [SportShopKazharov] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [SportShopKazharov] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [SportShopKazharov] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET  ENABLE_BROKER 
+GO
+ALTER DATABASE [SportShopKazharov] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [SportShopKazharov] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [SportShopKazharov] SET  MULTI_USER 
+GO
+ALTER DATABASE [SportShopKazharov] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [SportShopKazharov] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [SportShopKazharov] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [SportShopKazharov] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [SportShopKazharov] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [SportShopKazharov] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [SportShopKazharov] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [SportShopKazharov] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [SportShopKazharov]
+GO
+/****** Object:  Table [dbo].[Города]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Города](
+	[ГородID] [int] IDENTITY(1,1) NOT NULL,
+	[НаименованиеГорода] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ГородID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ДанныеПользователей]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ДанныеПользователей](
+	[ДанныеПользователяID] [int] IDENTITY(1,1) NOT NULL,
+	[ПользовательID] [int] NOT NULL,
+	[ЛогинПользователя] [nvarchar](100) NOT NULL,
+	[ПарольПользователя] [nvarchar](100) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ДанныеПользователяID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ЕдиницыИзмерения]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ЕдиницыИзмерения](
+	[ЕдиницаИзмеренияID] [int] IDENTITY(1,1) NOT NULL,
+	[НаименованиеЕдиницыИзмерения] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ЕдиницаИзмеренияID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Заявки]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Заявки](
+	[ЗаявкаID] [int] IDENTITY(1,1) NOT NULL,
+	[НомерЗаявки] [int] NOT NULL,
+	[ПользовательID] [int] NOT NULL,
+	[КодПолучения] [int] NOT NULL,
+	[ПунктВыдачиID] [int] NULL,
+	[СтатусID] [int] NOT NULL,
+	[ДатаЗаказа] [date] NULL,
+	[ДатаДоставки] [date] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ЗаявкаID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ИсторияЗаказов]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ИсторияЗаказов](
+	[ИсторияID] [int] IDENTITY(1,1) NOT NULL,
+	[ПользовательID] [int] NOT NULL,
+	[ЗаявкаID] [int] NOT NULL,
+	[ДатаЗаказа] [date] NOT NULL,
+	[ДатаДоставки] [date] NULL,
+	[СтатусID] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ИсторияID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[КатегорииТоваров]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[КатегорииТоваров](
+	[КатегорияID] [int] IDENTITY(1,1) NOT NULL,
+	[НаименованиеКатегории] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[КатегорияID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Пользователи]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Пользователи](
+	[ПользовательID] [int] IDENTITY(1,1) NOT NULL,
+	[РольID] [int] NOT NULL,
+	[Фамилия] [nvarchar](50) NOT NULL,
+	[Имя] [nvarchar](50) NOT NULL,
+	[Отчество] [nvarchar](50) NULL,
+	[НомерТелефона] [nvarchar](15) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ПользовательID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ПоставщикиТоваров]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ПоставщикиТоваров](
+	[ПоставщикID] [int] IDENTITY(1,1) NOT NULL,
+	[НаименованиеПоставщик] [nvarchar](250) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ПоставщикID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ПроизводителиТоваров]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ПроизводителиТоваров](
+	[ПроизводительID] [int] IDENTITY(1,1) NOT NULL,
+	[НаименованиеПроизводителя] [nvarchar](250) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ПроизводительID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ПунктыВыдачи]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ПунктыВыдачи](
+	[ПунктВыдачиID] [int] IDENTITY(1,1) NOT NULL,
+	[ИндексПунктаВыдачи] [int] NOT NULL,
+	[ГородID] [int] NOT NULL,
+	[УлицаПунктаВыдачи] [nvarchar](250) NOT NULL,
+	[ДомПунктаВыдачи] [nvarchar](250) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ПунктВыдачиID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[РолиПользователей]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[РолиПользователей](
+	[РольID] [int] IDENTITY(1,1) NOT NULL,
+	[НаименованиеРоли] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[РольID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[СкладТоваров]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[СкладТоваров](
+	[СкладID] [int] IDENTITY(1,1) NOT NULL,
+	[ТоварID] [int] NOT NULL,
+	[КоличествоТовара] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[СкладID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[СоставЗаказа]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[СоставЗаказа](
+	[СоставЗаказа] [int] IDENTITY(1,1) NOT NULL,
+	[ЗаявкаID] [int] NOT NULL,
+	[ТоварID] [int] NOT NULL,
+	[Количество] [int] NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[СоставЗаказа] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[СтатусыЗаявок]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[СтатусыЗаявок](
+	[СтатусID] [int] IDENTITY(1,1) NOT NULL,
+	[НаименованиеСтатуса] [nvarchar](50) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[СтатусID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Товары]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Товары](
+	[ТоварID] [int] IDENTITY(1,1) NOT NULL,
+	[АртикулТовара] [nvarchar](20) NULL,
+	[ПроизводительID] [int] NOT NULL,
+	[ПоставщикID] [int] NOT NULL,
+	[НаименованиеТовара] [nvarchar](200) NULL,
+	[СтоимостьТовара] [float] NOT NULL,
+	[СкидкаТовара] [float] NOT NULL,
+	[КатегорияID] [int] NOT NULL,
+	[ЕдиницаИзмеренияID] [int] NOT NULL,
+	[ОписаниеТовара] [text] NULL,
+	[ИзображениеТовара] [text] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[ТоварID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Города] ON 
+
+INSERT [dbo].[Города] ([ГородID], [НаименованиеГорода]) VALUES (1, N'г. Дубна')
+SET IDENTITY_INSERT [dbo].[Города] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ДанныеПользователей] ON 
+
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (1, 1, N'm4ic8j5qgstw@gmail.com', N'2L6KZG')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (2, 2, N'd43zfg9tlsyv@gmail.com', N'uzWC67')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (3, 3, N'NULL8ohgisf6k45w@outlook.co', N'8ntwUp')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (4, 4, N'hi1brwj46czx@mail.com', N'YOyhfR')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (5, 5, N'fvkbcamhlj52@gmail.com', N'RSbvHv')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (6, 6, N'9qxnce8jwruv@gmail.com', N'rwVDh9')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (7, 7, N'dotiex942p1r@gmail.com', N'LdNyos')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (8, 8, N'n0bmi2h1xral@tutanota.com', N'gynQMT')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (9, 9, N'sfm3t278kdvz@yahoo.com', N'AtnDjr')
+INSERT [dbo].[ДанныеПользователей] ([ДанныеПользователяID], [ПользовательID], [ЛогинПользователя], [ПарольПользователя]) VALUES (10, 10, N'ilb8rdut0v7e@mail.com', N'JlFRCZ
+')
+SET IDENTITY_INSERT [dbo].[ДанныеПользователей] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ЕдиницыИзмерения] ON 
+
+INSERT [dbo].[ЕдиницыИзмерения] ([ЕдиницаИзмеренияID], [НаименованиеЕдиницыИзмерения]) VALUES (1, N'шт')
+SET IDENTITY_INSERT [dbo].[ЕдиницыИзмерения] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Заявки] ON 
+
+INSERT [dbo].[Заявки] ([ЗаявкаID], [НомерЗаявки], [ПользовательID], [КодПолучения], [ПунктВыдачиID], [СтатусID], [ДатаЗаказа], [ДатаДоставки]) VALUES (1, 1, 6, 401, 10, 1, CAST(N'2022-05-05' AS Date), CAST(N'2022-05-15' AS Date))
+INSERT [dbo].[Заявки] ([ЗаявкаID], [НомерЗаявки], [ПользовательID], [КодПолучения], [ПунктВыдачиID], [СтатусID], [ДатаЗаказа], [ДатаДоставки]) VALUES (2, 2, 7, 402, 2, 1, CAST(N'2022-05-05' AS Date), CAST(N'2022-05-16' AS Date))
+INSERT [dbo].[Заявки] ([ЗаявкаID], [НомерЗаявки], [ПользовательID], [КодПолучения], [ПунктВыдачиID], [СтатусID], [ДатаЗаказа], [ДатаДоставки]) VALUES (3, 3, 8, 401, 7, 2, CAST(N'2022-05-05' AS Date), CAST(N'2022-05-17' AS Date))
+SET IDENTITY_INSERT [dbo].[Заявки] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ИсторияЗаказов] ON 
+
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (1, 6, 1, CAST(N'2022-05-05' AS Date), CAST(N'2022-05-15' AS Date), 2)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (2, 6, 1, CAST(N'2022-05-05' AS Date), CAST(N'2022-05-15' AS Date), 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (3, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (4, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 1)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (5, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (6, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 1)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (7, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 1)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (8, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (9, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 1)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (10, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (11, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (12, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 1)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (13, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (14, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 1)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (15, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (16, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (17, 6, 1, CAST(N'2022-05-05' AS Date), CAST(N'2022-05-15' AS Date), 3)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (18, 6, 1, CAST(N'2022-05-05' AS Date), CAST(N'2022-05-15' AS Date), 1)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (19, 6, 1, CAST(N'2022-05-05' AS Date), NULL, 1)
+INSERT [dbo].[ИсторияЗаказов] ([ИсторияID], [ПользовательID], [ЗаявкаID], [ДатаЗаказа], [ДатаДоставки], [СтатусID]) VALUES (20, 6, 1, CAST(N'2022-05-05' AS Date), CAST(N'2022-05-15' AS Date), 1)
+SET IDENTITY_INSERT [dbo].[ИсторияЗаказов] OFF
+GO
+SET IDENTITY_INSERT [dbo].[КатегорииТоваров] ON 
+
+INSERT [dbo].[КатегорииТоваров] ([КатегорияID], [НаименованиеКатегории]) VALUES (1, N'Спортивный инвентарь')
+INSERT [dbo].[КатегорииТоваров] ([КатегорияID], [НаименованиеКатегории]) VALUES (2, N'Одежда')
+SET IDENTITY_INSERT [dbo].[КатегорииТоваров] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Пользователи] ON 
+
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (1, 1, N'Пахомова', N'Аиша', N'Анатольевна', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (2, 1, N'Жуков', N'Роман', N'Богданович', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (3, 1, N'Киселева', N'Анастасия', N'Максимовна', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (4, 2, N'Григорьева', N'Арина', N'Арсентьевна', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (5, 2, N'Иванов', N'Лев', N'Михайлович', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (6, 3, N'Поляков', N'Степан', N'Егорович', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (7, 3, N'Леонова', N'Алиса', N'Кирилловна', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (8, 3, N'Яковлев', N'Платон', N'Константинович', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (9, 3, N'Ковалева', N'Ева', N'Яковлевна', N'+7')
+INSERT [dbo].[Пользователи] ([ПользовательID], [РольID], [Фамилия], [Имя], [Отчество], [НомерТелефона]) VALUES (10, 2, N'Григорьев', N'Лев', N'Давидович', N'+7')
+SET IDENTITY_INSERT [dbo].[Пользователи] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ПоставщикиТоваров] ON 
+
+INSERT [dbo].[ПоставщикиТоваров] ([ПоставщикID], [НаименованиеПоставщик]) VALUES (1, N'Спортмастер')
+INSERT [dbo].[ПоставщикиТоваров] ([ПоставщикID], [НаименованиеПоставщик]) VALUES (2, N'Декатлон')
+SET IDENTITY_INSERT [dbo].[ПоставщикиТоваров] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ПроизводителиТоваров] ON 
+
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (1, N'X-Match')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (2, N'Perfetto Sport	')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (3, N'ROMANA Next')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (4, N'Moby Kids')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (5, N'playToday')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (6, N'Совтехстром')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (7, N'Совтехстром')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (8, N'Abtoys')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (9, N'DFC')
+INSERT [dbo].[ПроизводителиТоваров] ([ПроизводительID], [НаименованиеПроизводителя]) VALUES (10, N'Nordway')
+SET IDENTITY_INSERT [dbo].[ПроизводителиТоваров] OFF
+GO
+SET IDENTITY_INSERT [dbo].[ПунктыВыдачи] ON 
+
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (1, 344288, 1, N'ул.Чехова', N'1')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (2, 614164, 1, N'ул. Степная', N'30')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (3, 394242, 1, N'ул. Коммунистическая', N'43')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (4, 660540, 1, N'ул.Солнечная', N'25')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (5, 125837, 1, N'ул. Шоссейная', N'40')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (6, 125703, 1, N'ул. Партизанская', N'49')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (7, 625283, 1, N'ул. Победная', N'46')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (8, 614611, 1, N'ул. Молодежная', N'50')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (9, 454311, 1, N'ул. Новая', N'19')
+INSERT [dbo].[ПунктыВыдачи] ([ПунктВыдачиID], [ИндексПунктаВыдачи], [ГородID], [УлицаПунктаВыдачи], [ДомПунктаВыдачи]) VALUES (10, 660007, 1, N'ул. Октябрьская', N'19')
+SET IDENTITY_INSERT [dbo].[ПунктыВыдачи] OFF
+GO
+SET IDENTITY_INSERT [dbo].[РолиПользователей] ON 
+
+INSERT [dbo].[РолиПользователей] ([РольID], [НаименованиеРоли]) VALUES (1, N'Администратор')
+INSERT [dbo].[РолиПользователей] ([РольID], [НаименованиеРоли]) VALUES (2, N'Менеджер')
+INSERT [dbo].[РолиПользователей] ([РольID], [НаименованиеРоли]) VALUES (3, N'Клиент')
+SET IDENTITY_INSERT [dbo].[РолиПользователей] OFF
+GO
+SET IDENTITY_INSERT [dbo].[СкладТоваров] ON 
+
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (1, 1, 6)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (4, 3, 16)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (5, 4, 5)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (6, 5, 8)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (8, 7, 17)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (9, 8, 7)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (10, 9, 9)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (11, 10, 12)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (12, 11, 5)
+INSERT [dbo].[СкладТоваров] ([СкладID], [ТоварID], [КоличествоТовара]) VALUES (13, 12, 13)
+SET IDENTITY_INSERT [dbo].[СкладТоваров] OFF
+GO
+SET IDENTITY_INSERT [dbo].[СоставЗаказа] ON 
+
+INSERT [dbo].[СоставЗаказа] ([СоставЗаказа], [ЗаявкаID], [ТоварID], [Количество]) VALUES (1, 1, 1, 2)
+INSERT [dbo].[СоставЗаказа] ([СоставЗаказа], [ЗаявкаID], [ТоварID], [Количество]) VALUES (2, 1, 2, 2)
+INSERT [dbo].[СоставЗаказа] ([СоставЗаказа], [ЗаявкаID], [ТоварID], [Количество]) VALUES (3, 2, 3, 3)
+INSERT [dbo].[СоставЗаказа] ([СоставЗаказа], [ЗаявкаID], [ТоварID], [Количество]) VALUES (4, 2, 4, 3)
+INSERT [dbo].[СоставЗаказа] ([СоставЗаказа], [ЗаявкаID], [ТоварID], [Количество]) VALUES (5, 3, 5, 10)
+INSERT [dbo].[СоставЗаказа] ([СоставЗаказа], [ЗаявкаID], [ТоварID], [Количество]) VALUES (6, 3, 6, 10)
+SET IDENTITY_INSERT [dbo].[СоставЗаказа] OFF
+GO
+SET IDENTITY_INSERT [dbo].[СтатусыЗаявок] ON 
+
+INSERT [dbo].[СтатусыЗаявок] ([СтатусID], [НаименованиеСтатуса]) VALUES (1, N'Новый')
+INSERT [dbo].[СтатусыЗаявок] ([СтатусID], [НаименованиеСтатуса]) VALUES (2, N'Завершен')
+INSERT [dbo].[СтатусыЗаявок] ([СтатусID], [НаименованиеСтатуса]) VALUES (3, N'Готов к получению')
+SET IDENTITY_INSERT [dbo].[СтатусыЗаявок] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Товары] ON 
+
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (1, N'А112Т4', 1, 1, N'Боксерская груша', 778, 5, 1, 1, N'	Боксерская груша X-Match черная', N'А112Т4.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (3, N'G598Y6', 2, 2, N'Спортивный мат', 2390, 5, 1, 1, N'Спортивный мат 100x100x10 см Perfetto Sport № 3 бежевый', N'G598Y6.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (4, N'F746E6', 3, 2, N'Шведская стенка', 9900, 3, 1, 1, N'Шведская стенка ROMANA Next, pastel', N'F746E6.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (5, N'D830R5', 4, 1, N'Тренажер прыжков', 1120, 4, 1, 1, N'Тренажер для прыжков Moby Kids Moby-Jumper со счетчиком', N'D830R5.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (7, N'B538G6', 5, 1, N'Спортивный костюм', 839, 3, 2, 1, N'Спортивный костюм playToday (футболка + шорты)', N'B538G6.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (8, N'D648N7', 6, 2, N'Набор для хоккея', 350, 4, 1, 1, N'Набор для хоккея Совтехстром', N'D648N7.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (9, N'F735B6', 7, 2, N'Игровой набор', 320, 2, 1, 1, N'Игровой набор Совтехстром Кегли и шары', N'F735B6.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (10, N'F937G4', 8, 1, N'Игровой набор', 480, 2, 1, 1, N'Набор Abtoys Бадминтон и теннис ', N'F937G4.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (11, N'E324U7', 9, 1, N'Велотренажер', 6480, 5, 1, 1, N'Велотренажер двойной DFC B804 dual bike', N'E324U7.jpg')
+INSERT [dbo].[Товары] ([ТоварID], [АртикулТовара], [ПроизводительID], [ПоставщикID], [НаименованиеТовара], [СтоимостьТовара], [СкидкаТовара], [КатегорияID], [ЕдиницаИзмеренияID], [ОписаниеТовара], [ИзображениеТовара]) VALUES (12, N'G403T5', 10, 1, N'Тюбинг', 1450, 4, 1, 1, N'Тюбинг Nordway, 73 см', N'G403T5.jpg
+')
+SET IDENTITY_INSERT [dbo].[Товары] OFF
+GO
+ALTER TABLE [dbo].[ДанныеПользователей]  WITH CHECK ADD  CONSTRAINT [FK_ДанныеПользователей_Пользователи] FOREIGN KEY([ПользовательID])
+REFERENCES [dbo].[Пользователи] ([ПользовательID])
+GO
+ALTER TABLE [dbo].[ДанныеПользователей] CHECK CONSTRAINT [FK_ДанныеПользователей_Пользователи]
+GO
+ALTER TABLE [dbo].[Заявки]  WITH CHECK ADD  CONSTRAINT [FK_Заявки_Пользователи] FOREIGN KEY([ПользовательID])
+REFERENCES [dbo].[Пользователи] ([ПользовательID])
+GO
+ALTER TABLE [dbo].[Заявки] CHECK CONSTRAINT [FK_Заявки_Пользователи]
+GO
+ALTER TABLE [dbo].[Заявки]  WITH CHECK ADD  CONSTRAINT [FK_Заявки_ПунктыВыдачи] FOREIGN KEY([ПунктВыдачиID])
+REFERENCES [dbo].[ПунктыВыдачи] ([ПунктВыдачиID])
+GO
+ALTER TABLE [dbo].[Заявки] CHECK CONSTRAINT [FK_Заявки_ПунктыВыдачи]
+GO
+ALTER TABLE [dbo].[Заявки]  WITH CHECK ADD  CONSTRAINT [FK_Заявки_СтатусыЗаявок] FOREIGN KEY([СтатусID])
+REFERENCES [dbo].[СтатусыЗаявок] ([СтатусID])
+GO
+ALTER TABLE [dbo].[Заявки] CHECK CONSTRAINT [FK_Заявки_СтатусыЗаявок]
+GO
+ALTER TABLE [dbo].[Пользователи]  WITH CHECK ADD  CONSTRAINT [FK_Пользователи_РолиПользователей] FOREIGN KEY([РольID])
+REFERENCES [dbo].[РолиПользователей] ([РольID])
+GO
+ALTER TABLE [dbo].[Пользователи] CHECK CONSTRAINT [FK_Пользователи_РолиПользователей]
+GO
+ALTER TABLE [dbo].[ПунктыВыдачи]  WITH CHECK ADD  CONSTRAINT [FK_ПунктыВыдачи_Города] FOREIGN KEY([ГородID])
+REFERENCES [dbo].[Города] ([ГородID])
+GO
+ALTER TABLE [dbo].[ПунктыВыдачи] CHECK CONSTRAINT [FK_ПунктыВыдачи_Города]
+GO
+ALTER TABLE [dbo].[СкладТоваров]  WITH CHECK ADD  CONSTRAINT [FK_СкладТоваров_Товары] FOREIGN KEY([ТоварID])
+REFERENCES [dbo].[Товары] ([ТоварID])
+GO
+ALTER TABLE [dbo].[СкладТоваров] CHECK CONSTRAINT [FK_СкладТоваров_Товары]
+GO
+ALTER TABLE [dbo].[СоставЗаказа]  WITH CHECK ADD  CONSTRAINT [FK_СоставЗаказа_Заявки] FOREIGN KEY([ЗаявкаID])
+REFERENCES [dbo].[Заявки] ([ЗаявкаID])
+GO
+ALTER TABLE [dbo].[СоставЗаказа] CHECK CONSTRAINT [FK_СоставЗаказа_Заявки]
+GO
+ALTER TABLE [dbo].[Товары]  WITH CHECK ADD  CONSTRAINT [FK_Товары_ЕдиницыИзмерения] FOREIGN KEY([ЕдиницаИзмеренияID])
+REFERENCES [dbo].[ЕдиницыИзмерения] ([ЕдиницаИзмеренияID])
+GO
+ALTER TABLE [dbo].[Товары] CHECK CONSTRAINT [FK_Товары_ЕдиницыИзмерения]
+GO
+ALTER TABLE [dbo].[Товары]  WITH CHECK ADD  CONSTRAINT [FK_Товары_КатегорииТоваров] FOREIGN KEY([КатегорияID])
+REFERENCES [dbo].[КатегорииТоваров] ([КатегорияID])
+GO
+ALTER TABLE [dbo].[Товары] CHECK CONSTRAINT [FK_Товары_КатегорииТоваров]
+GO
+ALTER TABLE [dbo].[Товары]  WITH CHECK ADD  CONSTRAINT [FK_Товары_ПоставщикиТоваров] FOREIGN KEY([ПоставщикID])
+REFERENCES [dbo].[ПоставщикиТоваров] ([ПоставщикID])
+GO
+ALTER TABLE [dbo].[Товары] CHECK CONSTRAINT [FK_Товары_ПоставщикиТоваров]
+GO
+ALTER TABLE [dbo].[Товары]  WITH CHECK ADD  CONSTRAINT [FK_Товары_ПроизводителиТоваров] FOREIGN KEY([ПроизводительID])
+REFERENCES [dbo].[ПроизводителиТоваров] ([ПроизводительID])
+GO
+ALTER TABLE [dbo].[Товары] CHECK CONSTRAINT [FK_Товары_ПроизводителиТоваров]
+GO
+/****** Object:  Trigger [dbo].[trgInsertNewOrder]    Script Date: 29.10.2024 11:48:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[trgInsertNewOrder]
+ON [dbo].[Заявки]
+AFTER INSERT
+AS
+BEGIN
+    UPDATE Заявки
+    SET СтатусID = (SELECT СтатусID FROM СтатусыЗаявок WHERE НаименованиеСтатуса = 'Новый'), 
+        ДатаЗаказа = GETDATE()
+    WHERE ЗаявкаID IN (SELECT ЗаявкаID FROM inserted);
+END;
+GO
+ALTER TABLE [dbo].[Заявки] ENABLE TRIGGER [trgInsertNewOrder]
+GO
+/****** Object:  Trigger [dbo].[trgOrderHistory]    Script Date: 29.10.2024 11:48:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[trgOrderHistory]
+ON [dbo].[Заявки]
+AFTER INSERT, UPDATE
+AS
+BEGIN
+    INSERT INTO ИсторияЗаказов (ПользовательID, ЗаявкаID, ДатаЗаказа, ДатаДоставки, СтатусID)
+    SELECT ПользовательID, ЗаявкаID, ДатаЗаказа, ДатаДоставки, СтатусID
+    FROM inserted;
+END;
+GO
+ALTER TABLE [dbo].[Заявки] ENABLE TRIGGER [trgOrderHistory]
+GO
+/****** Object:  Trigger [dbo].[trgOrderReadyForPickup]    Script Date: 29.10.2024 11:48:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[trgOrderReadyForPickup]
+ON [dbo].[Заявки]
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(ПунктВыдачиID)
+    BEGIN
+        UPDATE Заявки
+        SET СтатусID = (SELECT СтатусID FROM СтатусыЗаявок WHERE НаименованиеСтатуса = 'Готов к получению')
+        WHERE ЗаявкаID IN (SELECT ЗаявкаID FROM inserted WHERE ПунктВыдачиID IS NOT NULL);
+    END;
+END;
+GO
+ALTER TABLE [dbo].[Заявки] ENABLE TRIGGER [trgOrderReadyForPickup]
+GO
+USE [master]
+GO
+ALTER DATABASE [SportShopKazharov] SET  READ_WRITE 
+GO
