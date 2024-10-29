@@ -11,11 +11,6 @@ create table Пользователи
 
 ДанныеПользователяID int not null,
 )
-create table Города
-(
-ГородID int identity primary key,
-НаименованиеГорода nvarchar(100) not null
-)
 create table ПолПользователя
 (
 ПолID int identity primary key not null
@@ -48,6 +43,11 @@ create table МестоПроживания
 ГородID int not null,
 Улица nvarchar(100) not null,
 Дом nvarchar(100) not null,
+);
+create table Города
+(
+ГородID int identity primary key,
+НаименованиеГорода nvarchar(100) not null
 );
 
 create table Пациенты
@@ -150,7 +150,7 @@ create table МероприятиеВрач
 (
 МероприятиеВрачID int identity primary key,
 
-ПациентID int not null,
+МероприятиеID int not null,
 ВрачID int not null,
 )
 create table ТипМероприятий
@@ -198,3 +198,112 @@ create table Отделения
 ОтделениеID int identity primary key not null,
 НаименованиеОтделения nvarchar(250) not null
 )
+
+GO
+-- Связи
+GO
+
+ALTER TABLE Пользователи
+ADD FOREIGN KEY (ПолID)
+REFERENCES ПолПользователя (ПолID)
+ALTER TABLE Пользователи
+ADD FOREIGN KEY (ДанныеПользователяID)
+REFERENCES ДанныеПользователя (ДанныеПользователяID)
+
+ALTER TABLE ДанныеПользователя
+ADD FOREIGN KEY (МестоПроживанияID)
+REFERENCES МестоПроживания (МестоПроживанияID)
+ALTER TABLE ДанныеПользователя
+ADD FOREIGN KEY (ПаспортныДанныеID)
+REFERENCES ПаспортныеДанные (ПаспортныДанныеID)
+
+ALTER TABLE МестоПроживания
+ADD FOREIGN KEY (ГородID)
+REFERENCES Города (ГородID)
+
+ALTER TABLE Пациенты
+ADD FOREIGN KEY (ПользовательID)
+REFERENCES Пользователи (ПользовательID)
+ALTER TABLE Пациенты
+ADD FOREIGN KEY (МедицинскаяКартаID)
+REFERENCES МедицинскиеКарты (МедицинскаяКартаID)
+ALTER TABLE Пациенты
+ADD FOREIGN KEY (СтраховойПоясID)
+REFERENCES СтраховойПояс (СтраховойПоясID)
+
+ALTER TABLE СтраховойПояс
+ADD FOREIGN KEY (СтраховаяКомпанияID)
+REFERENCES СтраховыеКомпании (СтраховаяКомпанияID)
+
+ALTER TABLE Врачи
+ADD FOREIGN KEY (ПользовательID)
+REFERENCES Пользователи (ПользовательID)
+ALTER TABLE Врачи
+ADD FOREIGN KEY (РольID)
+REFERENCES Роли (РольID)
+
+ALTER TABLE ВрачиОтделения
+ADD FOREIGN KEY (ВрачID)
+REFERENCES Врачи (ВрачID)
+ALTER TABLE ВрачиОтделения
+ADD FOREIGN KEY (ОтделениеID)
+REFERENCES Отделения (ОтделениеID)
+
+ALTER TABLE Диагноз
+ADD FOREIGN KEY (БолезньID)
+REFERENCES Болезни (БолезньID)
+ALTER TABLE Диагноз
+ADD FOREIGN KEY (СтепеньТяжестиЗаболеваний)
+REFERENCES СтепеньТяжестиЗаболеваний (СтепеньТяжестиID)
+
+ALTER TABLE СимптомыБолезнь
+ADD FOREIGN KEY (БолезньID)
+REFERENCES Болезни (БолезньID)
+ALTER TABLE СимптомыБолезнь
+ADD FOREIGN KEY (СимптомID)
+REFERENCES Симптомы (СимптомID)
+
+ALTER TABLE Мероприятия
+ADD FOREIGN KEY (ТипМероприятияID)
+REFERENCES ТипМероприятий (ТипМероприятияID)
+ALTER TABLE Мероприятия
+ADD FOREIGN KEY (ПациентID)
+REFERENCES Пациенты (ПациентID)
+ALTER TABLE Мероприятия
+ADD FOREIGN KEY (РецептID)
+REFERENCES Рецепты (РецептID)
+
+ALTER TABLE МероприятиеВрач
+ADD FOREIGN KEY (ВрачID)
+REFERENCES Врачи (ВрачID)
+ALTER TABLE МероприятиеВрач
+ADD FOREIGN KEY (МероприятиеID)
+REFERENCES Мероприятия (МероприятиеID)
+
+ALTER TABLE Рецепты
+ADD FOREIGN KEY (ПрепаратID)
+REFERENCES Препараты (ПрепаратID)
+ALTER TABLE Рецепты
+ADD FOREIGN KEY (ДиагнозID)
+REFERENCES Диагноз (ДиагнозID)
+
+ALTER TABLE ИсторияБолезней
+ADD FOREIGN KEY (ДиагнозID)
+REFERENCES Диагноз (ДиагнозID)
+ALTER TABLE ИсторияБолезней
+ADD FOREIGN KEY (ПациентID)
+REFERENCES Пациенты (ПациентID)
+
+ALTER TABLE Гопитализации
+ADD FOREIGN KEY (ОтделениеID)
+REFERENCES Отделения (ОтделениеID)
+ALTER TABLE Гопитализации
+ADD FOREIGN KEY (ПациентID)
+REFERENCES Пациенты (ПациентID)
+
+ALTER TABLE ГопитализацияДиагноз
+ADD FOREIGN KEY (ДиагнозID)
+REFERENCES Диагноз (ДиагнозID)
+ALTER TABLE ГопитализацияДиагноз
+ADD FOREIGN KEY (ГоспитализацияID)
+REFERENCES Гопитализации (ГоспитализацияID)
