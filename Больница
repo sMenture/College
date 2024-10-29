@@ -56,7 +56,7 @@ create table Пациенты
 ПользовательID int not null,
 
 МедицинскаяКартаID int not null,
-СтраховойПоясID int not null
+СтраховойПолисID int not null
 )
 
 create table МедицинскиеКарты
@@ -65,12 +65,12 @@ create table МедицинскиеКарты
 НомерМедицинскойКарты int not null,
 ДатаВыдачиМедицинскойКарты date not null,
 )
-create table СтраховойПояс
+create table СтраховойПолис
 (
-СтраховойПоясID int identity primary key,
+СтраховойПолисID int identity primary key,
 СтраховаяКомпанияID int not null,
-НомерСтраховогоПояса int not null,
-ДатаОкончанияСтраховогоПояса date not null
+НомерСтраховогоПолиса int not null,
+ДатаОкончанияСтраховогоПолиса date not null
 )
 create table СтраховыеКомпании
 (
@@ -228,10 +228,10 @@ ALTER TABLE Пациенты
 ADD FOREIGN KEY (МедицинскаяКартаID)
 REFERENCES МедицинскиеКарты (МедицинскаяКартаID)
 ALTER TABLE Пациенты
-ADD FOREIGN KEY (СтраховойПоясID)
-REFERENCES СтраховойПояс (СтраховойПоясID)
+ADD FOREIGN KEY (СтраховойПолисID)
+REFERENCES СтраховойПояс (СтраховойПолисID)
 
-ALTER TABLE СтраховойПояс
+ALTER TABLE СтраховойПолис
 ADD FOREIGN KEY (СтраховаяКомпанияID)
 REFERENCES СтраховыеКомпании (СтраховаяКомпанияID)
 
