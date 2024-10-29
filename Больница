@@ -229,7 +229,7 @@ ADD FOREIGN KEY (МедицинскаяКартаID)
 REFERENCES МедицинскиеКарты (МедицинскаяКартаID)
 ALTER TABLE Пациенты
 ADD FOREIGN KEY (СтраховойПолисID)
-REFERENCES СтраховойПояс (СтраховойПолисID)
+REFERENCES СтраховойПолис (СтраховойПолисID)
 
 ALTER TABLE СтраховойПолис
 ADD FOREIGN KEY (СтраховаяКомпанияID)
