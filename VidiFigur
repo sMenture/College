@@ -1,0 +1,91 @@
+<Window
+    x:Class="VidiFigur.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Canvas>
+            <Canvas Canvas.Left="0">
+                <Ellipse Name="ColorEllipse" Fill="White" Width="100" Height="100"/>
+                <Image Source="Resources/alpha.png" Width="100" Height="100" MouseEnter="Ellipse_MouseEnter" MouseLeave="Ellipse_MouseLeave"/>
+            </Canvas>
+            <Canvas Canvas.Left="110">
+                <Image Name="Image2" Source="Resources/disable.png" Width="100" Height="100" Opacity="0"/>
+                <Image Name="Image1" Source="Resources/origin.png" Width="100" Height="100" Opacity="1" MouseEnter="Image_MouseEnter" MouseLeave="Image_MouseLeave"/>
+            </Canvas>
+
+            
+        </Canvas>
+    </Grid>
+</Window>
+
+using System;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+
+namespace VidiFigur
+{
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void Ellipse_MouseEnter(object sender, MouseEventArgs e)
+        {
+            ChangeColor(Colors.White, Colors.Green);
+        }
+        private void Ellipse_MouseLeave(object sender, MouseEventArgs e)
+        {
+            ChangeColor(Colors.LightGreen, Colors.White);
+        }
+        private void ChangeColor(Color fromColor, Color toColor)
+        {
+            ColorAnimation colorAnimation = new ColorAnimation
+            {
+                From = fromColor,
+                To = toColor,
+                Duration = new Duration(TimeSpan.FromSeconds(0.5))
+            };
+            Storyboard.SetTarget(colorAnimation, ColorEllipse);
+            Storyboard.SetTargetProperty(colorAnimation, new PropertyPath("(Shape.Fill).(SolidColorBrush.Color)"));
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(colorAnimation);
+            storyboard.Begin();
+        }
+
+        private void Image_MouseEnter(object sender, MouseEventArgs e)
+        {
+            SwitchImagesVisibility(true);
+        }
+        private void Image_MouseLeave(object sender, MouseEventArgs e)
+        {
+            SwitchImagesVisibility(false);
+        }
+        private void SwitchImagesVisibility(bool mouseOver)
+        {
+            double fromOpacity = mouseOver ? 1.0 : 0.0;
+            double toOpacity = mouseOver ? 0.0 : 1.0;
+
+            DoubleAnimation image1Animation = new DoubleAnimation
+            {
+                From = fromOpacity,
+                To = toOpacity,
+                Duration = new Duration(TimeSpan.FromSeconds(0.5))
+            };
+
+            DoubleAnimation image2Animation = new DoubleAnimation
+            {
+                From = toOpacity,
+                To = fromOpacity,
+                Duration = new Duration(TimeSpan.FromSeconds(0.5))
+            };
+
+            Image1.BeginAnimation(OpacityProperty, image1Animation);
+            Image2.BeginAnimation(OpacityProperty, image2Animation);
+        }
+    }
+}
