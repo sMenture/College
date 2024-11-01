@@ -1,0 +1,348 @@
+create database HospitalKazharov
+
+GO
+
+use HospitalKazharov
+
+GO GO GO
+
+create table Пользователи
+(
+ПользовательID int identity primary key,
+Фамилия nvarchar(50) not null,
+Имя nvarchar(50) not null,
+Отчество nvarchar(50) null,
+ПолID int not null,
+РольID int not null,
+ДатаРождения date not null,
+Телефон nvarchar(15) not null,
+Почта nvarchar(50) not null
+);
+
+create table МестоРаботы
+(
+МестоРаботыID int identity primary key,
+ПользовательID int not null,
+РабочееКомпанияID int not null
+);
+create table РабочииКомпании
+(
+РабочаяКомпанияID int identity primary key,
+НаименованиеРабочейКомпании nvarchar(100) not null
+);
+
+create table АдрессПроживаний
+(
+АдрессID int identity primary key,
+ПользовательID int not null,
+ГородID int not null,
+Улица nvarchar(50) not null,
+НомерДома nvarchar(50) not null
+);
+create table Города
+(
+ГородID int identity primary key,
+НаименованиеГода nvarchar(30) not null
+);
+
+create table ПаспортныеДанные
+(
+ПаспортID int identity primary key,
+ПользовательID int not null,
+СерияПаспорта int not null,
+НомерПаспорта int not null
+);
+
+create table ПолID
+(
+ПолID int identity primary key,
+НаименованиеПола nvarchar(15) not null
+);
+
+create table Роли
+(
+РольID int identity primary key,
+НаименованиеРоли nvarchar(100) not null
+);
+
+create table СтраховыеПолисы
+(
+СтраховойПолисID int identity primary key,
+ПользовательID int not null,
+НомерСтраховогоПолиса int not null,
+СтраховаяКомпаниID int not null
+);
+create table СтраховыеКомпании
+(
+СтраховаяКомпанияID int identity primary key,
+НаименованиеСтраховойКомпании nvarchar(100) not null
+);
+
+
+
+
+create table МедКарты
+(
+МедКартаID int identity primary key,
+ПациентID int not null,
+НомерКарты int not null,
+ФотографияПациента text not null
+);
+create table МедКонтракты
+(
+МедКонтрактID int identity primary key,
+МедКартаID int not null,
+ДатаПодписания date not null,
+Документ text not null
+);
+
+create table МедИстория
+(
+МедИсторияID int identity primary key,
+МедКартаID int not null,
+ДокторID int not null
+);
+create table ИсторияВизитов
+(
+ВизитID int identity primary key,
+МедКартаID int not null,
+ДатаПриема date not null,
+ДатаСледующегоПриема date not null
+);
+
+
+
+create table ЛеченыеМероприятия
+(
+МероприятиеID int identity primary key,
+МедИсторияID int not null,
+ТипМероприятияID int not null
+);
+create table ТипМероприятий
+(
+ТипМероприятияID int identity primary key,
+НаименованиеМероприятия nvarchar(100) not null
+);
+
+create table Анализы
+(
+АнализID int identity primary key,
+МероприятиеID int not null,
+Показания text not null
+);
+
+create table Рекомендации
+(
+РекомендацияID int identity primary key,
+МероприятиеID int not null,
+Сообщение text not null
+);
+
+
+
+
+create table Рецепты
+(
+РецептID int identity primary key,
+МедИсторияID int not null,
+Сообщение text null
+);
+
+create table Диагноз
+(
+ДиагнозID int identity primary key,
+РецептID int not null,
+Болезни int not null,
+Сообщенение text not null
+);
+create table Болезни
+(
+БолезньID int identity primary key,
+НаименованиеБолезни nvarchar(100) not null
+);
+
+create table ПрепаратыРецепт
+(
+ПрепаратРецептID int identity primary key,
+ПрепаратID int not null,
+РецептID int not null,
+Сообщение text not null
+);
+create table Препараты
+(
+ПрепаратID int identity primary key,
+НаименованиеПрепарата nvarchar(100) not null
+);
+
+create table Жалобы
+(
+ЖалобаID int identity primary key,
+РецептID int not null,
+Сообщение text not null
+);
+create table ВозможныеПричиныЗаболевания
+(
+ПричинаID int identity primary key,
+ЖалобаID int not null,
+Сообщение text not null
+);
+
+
+
+
+
+create table Госпитазилации
+(
+ГоспитазилацияID int identity primary key,
+ИдентификаторГоспитализации int not null,
+МедИсторияID int not null,
+ДатаНачала date not null,
+ДатаОкончания date not null,
+ОтделID int not null
+);
+create table Отделы
+(
+ОтделID int identity primary key,
+НаименованиеОтдела nvarchar(100) not null
+);
+create table Палаты
+(
+ПалатаID int identity primary key,
+ОтделID int not null,
+НомерПалаты int not null
+);
+create table БольничныеКойки
+(
+КойкаID int identity primary key,
+ПалатаID int not null,
+НомерКойки int not null,
+ЗанятостьID int not null
+);
+create table СтатусБольничныхКоек
+(
+СтатусID int identity primary key,
+НаименованиеСтатуса nvarchar(50) not null
+);
+
+create table ОтменаГоспитазилаций
+(
+ОтменаГоспитазилацииID int identity primary key,
+ГоспитализацияID int not null,
+Причина text not null
+);
+
+GO GO GO
+
+-- Связи для таблицы Пользователи
+ALTER TABLE Пользователи
+ADD CONSTRAINT FK_ПолID FOREIGN KEY (ПолID) REFERENCES ПолID(ПолID);
+
+-- Связи для таблицы МестоРаботы
+ALTER TABLE МестоРаботы
+ADD CONSTRAINT FK_ПользовательID_MestoRaboty FOREIGN KEY (ПользовательID) REFERENCES Пользователи(ПользовательID);
+
+ALTER TABLE МестоРаботы
+ADD CONSTRAINT FK_РабочееКомпанияID FOREIGN KEY (РабочееКомпанияID) REFERENCES РабочииКомпании(РабочаяКомпанияID);
+
+-- Связи для таблицы АдрессПроживаний
+ALTER TABLE АдрессПроживаний
+ADD CONSTRAINT FK_ПользовательID_AdressProzhivaniya FOREIGN KEY (ПользовательID) REFERENCES Пользователи(ПользовательID);
+
+ALTER TABLE АдрессПроживаний
+ADD CONSTRAINT FK_ГородID FOREIGN KEY (ГородID) REFERENCES Города(ГородID);
+
+-- Связи для таблицы ПаспортныеДанные
+ALTER TABLE ПаспортныеДанные
+ADD CONSTRAINT FK_ПользовательID_PasportnieDannie FOREIGN KEY (ПользовательID) REFERENCES Пользователи(ПользовательID);
+
+-- Связи для таблицы СтраховыеПолисы
+ALTER TABLE СтраховыеПолисы
+ADD CONSTRAINT FK_ПользовательID_StrahoviePolisi FOREIGN KEY (ПользовательID) REFERENCES Пользователи(ПользовательID);
+
+ALTER TABLE СтраховыеПолисы
+ADD CONSTRAINT FK_СтраховаяКомпаниID FOREIGN KEY (СтраховаяКомпаниID) REFERENCES СтраховыеКомпании(СтраховаяКомпанияID);
+
+-- Связи для таблицы МедКарты
+ALTER TABLE МедКарты
+ADD CONSTRAINT FK_ПациентID_MedKarta FOREIGN KEY (ПациентID) REFERENCES Пользователи(ПользовательID);
+
+-- Связи для таблицы МедКонтракты
+ALTER TABLE МедКонтракты
+ADD CONSTRAINT FK_МедКартаID_MedKontrakt FOREIGN KEY (МедКартаID) REFERENCES МедКарты(МедКартаID);
+
+-- Связи для таблицы МедИстория
+ALTER TABLE МедИстория
+ADD CONSTRAINT FK_МедКартаID_MedIstoria FOREIGN KEY (МедКартаID) REFERENCES МедКарты(МедКартаID);
+
+ALTER TABLE МедИстория
+ADD CONSTRAINT FK_ДокторID_MedIstoria FOREIGN KEY (ДокторID) REFERENCES Пользователи(ПользовательID);
+
+-- Связи для таблицы ИсторияВизитов
+ALTER TABLE ИсторияВизитов
+ADD CONSTRAINT FK_МедКартаID_IstoriaVizitov FOREIGN KEY (МедКартаID) REFERENCES МедКарты(МедКартаID);
+
+-- Связи для таблицы ЛеченыеМероприятия
+ALTER TABLE ЛеченыеМероприятия
+ADD CONSTRAINT FK_МедИсторияID_LecMero FOREIGN KEY (МедИсторияID) REFERENCES МедИстория(МедИсторияID);
+
+ALTER TABLE ЛеченыеМероприятия
+ADD CONSTRAINT FK_ТипМероприятияID_LecMero FOREIGN KEY (ТипМероприятияID) REFERENCES ТипМероприятий(ТипМероприятияID);
+
+-- Связи для таблицы Анализы
+ALTER TABLE Анализы
+ADD CONSTRAINT FK_МероприятиеID_Analiz FOREIGN KEY (МероприятиеID) REFERENCES ЛеченыеМероприятия(МероприятиеID);
+
+-- Связи для таблицы Рекомендации
+ALTER TABLE Рекомендации
+ADD CONSTRAINT FK_МероприятиеID_Recommendation FOREIGN KEY (МероприятиеID) REFERENCES ЛеченыеМероприятия(МероприятиеID);
+
+-- Связи для таблицы Рецепты
+ALTER TABLE Рецепты
+ADD CONSTRAINT FK_МедИсторияID_Recepty FOREIGN KEY (МедИсторияID) REFERENCES МедИстория(МедИсторияID);
+
+-- Связи для таблицы Диагноз
+ALTER TABLE Диагноз
+ADD CONSTRAINT FK_РецептID_Diagnoz FOREIGN KEY (РецептID) REFERENCES Рецепты(РецептID);
+
+ALTER TABLE Диагноз
+ADD CONSTRAINT FK_Болезни_Diagnoz FOREIGN KEY (Болезни) REFERENCES Болезни(БолезньID);
+
+-- Связи для таблицы ПрепаратыРецепт
+ALTER TABLE ПрепаратыРецепт
+ADD CONSTRAINT FK_ПрепаратID_Preparaty FOREIGN KEY (ПрепаратID) REFERENCES Препараты(ПрепаратID);
+
+ALTER TABLE ПрепаратыРецепт
+ADD CONSTRAINT FK_РецептID_PreparatyRecept FOREIGN KEY (РецептID) REFERENCES Рецепты(РецептID);
+
+-- Связи для таблицы Жалобы
+ALTER TABLE Жалобы
+ADD CONSTRAINT FK_РецептID_Jaloby FOREIGN KEY (РецептID) REFERENCES Рецепты(РецептID);
+
+-- Связи для таблицы ВозможныеПричиныЗаболевания
+ALTER TABLE ВозможныеПричиныЗаболевания
+ADD CONSTRAINT FK_ЖалобаID_Prichiny FOREIGN KEY (ЖалобаID) REFERENCES Жалобы(ЖалобаID);
+
+-- Связи для таблицы Госпитазилации
+ALTER TABLE Госпитазилации
+ADD CONSTRAINT FK_МедИсторияID_Gospitalizaciya FOREIGN KEY (МедИсторияID) REFERENCES МедИстория(МедИсторияID);
+
+ALTER TABLE Госпитазилации
+ADD CONSTRAINT FK_ОтделID_Gospitalizaciya FOREIGN KEY (ОтделID) REFERENCES Отделы(ОтделID);
+
+-- Связи для таблицы Палаты
+ALTER TABLE Палаты
+ADD CONSTRAINT FK_ОтделID_Palaty FOREIGN KEY (ОтделID) REFERENCES Отделы(ОтделID);
+
+-- Связи для таблицы БольничныеКойки
+ALTER TABLE БольничныеКойки
+ADD CONSTRAINT FK_ПалатаID_Koyki FOREIGN KEY (ПалатаID) REFERENCES Палаты(ПалатаID);
+
+ALTER TABLE БольничныеКойки
+ADD CONSTRAINT FK_ЗанятостьID_Koyki FOREIGN KEY (ЗанятостьID) REFERENCES СтатусБольничныхКоек(СтатусID);
+
+-- Связи для таблицы ОтменаГоспитазилаций
+ALTER TABLE ОтменаГоспитазилаций
+ADD CONSTRAINT FK_ГоспитализацияID_Cancellation FOREIGN KEY (ГоспитализацияID) REFERENCES Госпитазилации(ГоспитазилацияID);
+
+ALTER TABLE Пользователи
+ADD CONSTRAINT FK_РольID_Polzovateli FOREIGN KEY (РольID) REFERENCES Роли(РольID);
