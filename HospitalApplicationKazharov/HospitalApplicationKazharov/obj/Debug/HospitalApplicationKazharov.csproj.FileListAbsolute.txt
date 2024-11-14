@@ -1,0 +1,15 @@
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\bin\Debug\HospitalApplicationKazharov.exe.config
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\bin\Debug\HospitalApplicationKazharov.exe
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\bin\Debug\HospitalApplicationKazharov.pdb
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov.csproj.AssemblyReference.cache
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\MainWindow.g.cs
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\App.g.cs
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov_MarkupCompile.cache
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov_MarkupCompile.lref
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\MainWindow.baml
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov.g.resources
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov.Properties.Resources.resources
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov.csproj.GenerateResource.cache
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov.csproj.CoreCompileInputs.cache
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov.exe
+C:\Users\Artem\source\repos\HospitalApplicationKazharov\HospitalApplicationKazharov\obj\Debug\HospitalApplicationKazharov.pdb
